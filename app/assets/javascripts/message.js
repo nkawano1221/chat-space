@@ -4,18 +4,18 @@ $(function(){
     var image = message.image ? `<img class="lower-message__image" src="${message.image}">` : "";
 
     var html = `<div class="message" data-id=${message.id}>
-                <div class="upper-message">
-                <div class="upper-message__user-name">
-                ${message.user_name}
-                </div>
-                <div class="upper-message__date">
-                ${message.date}
-                </div>
-                </div>
-                <div class="lower-message">
-                ${content}
-                ${image}
-                </div>
+                  <div class="upper-message">
+                    <div class="upper-message__user-name">
+                    ${message.user_name}
+                    </div>
+                    <div class="upper-message__date">
+                    ${message.date}
+                    </div>
+                  </div>
+                    <div class="lower-message">
+                    ${content}
+                    ${image}
+                    </div>
                 </div>`
     return html;
   }
@@ -55,10 +55,12 @@ $(function(){
       if (messages.length !== 0) {
         var insertHTML = '';
         $.each(messages, function(i, message) {
-        insertHTML += buildHTML(message)
+          insertHTML += buildHTML(message)
         });
-      $('.ChatMain__messages').append(insertHTML);
-      $('.ChatMain__messages').animate({ scrollTop: $('.ChatMain__messages')[0].scrollHeight});
+        $('.ChatMain__messages').append(insertHTML);
+        $('.ChatMain__messages').animate({
+          scrollTop: $('.ChatMain__messages')[0].scrollHeight
+        });
       }
     })
     .fail(function() {
