@@ -1,4 +1,5 @@
 $(function(){
+
   function buildHTML(message){
     var content = message.content ? `<p class="lower-message__content">${message.content}</p>` : "";
     var image = message.image ? `<img class="lower-message__image" src="${message.image}">` : "";
@@ -6,15 +7,15 @@ $(function(){
     var html = `<div class="message" data-id=${message.id}>
                   <div class="upper-message">
                     <div class="upper-message__user-name">
-                    ${message.user_name}
+                      ${message.user_name}
                     </div>
                     <div class="upper-message__date">
-                    ${message.date}
+                      ${message.date}
                     </div>
                   </div>
                     <div class="lower-message">
-                    ${content}
-                    ${image}
+                      ${content}
+                      ${image}
                     </div>
                 </div>`
     return html;
