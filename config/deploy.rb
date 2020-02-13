@@ -1,5 +1,4 @@
 # config valid for current version and patch releases of Capistrano
-<<<<<<< HEAD
 lock "~> 3.12.0"
 
 set :application, "my_app_name"
@@ -41,9 +40,6 @@ set :repo_url, "git@example.com:me/my_repo.git"
 
 # config valid only for current version of Capistrano
 # capistranoのバージョンを記載。固定のバージョンを利用し続け、バージョン変更によるトラブルを防止する
-=======
-lock '3.12.0'
->>>>>>> 5609910d0fbcb019b4f5a6da3bc75cc79bea024a
 
 # Capistranoのログの表示に利用する
 set :application, 'chat-space'
