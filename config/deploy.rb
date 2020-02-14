@@ -40,6 +40,7 @@ set :repo_url, "git@example.com:me/my_repo.git"
 
 # config valid only for current version of Capistrano
 # capistranoのバージョンを記載。固定のバージョンを利用し続け、バージョン変更によるトラブルを防止する
+lock '3.12.0'
 
 # Capistranoのログの表示に利用する
 set :application, 'chat-space'
@@ -68,6 +69,7 @@ set :keep_releases, 5
 set :linked_files, %w{ config/secrets.yml }
 
 # 元々記述されていた after 「'deploy:publishing', 'deploy:restart'」以下を削除して、次のように書き換え
+
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do
