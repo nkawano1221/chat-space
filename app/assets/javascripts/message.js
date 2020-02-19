@@ -1,71 +1,86 @@
-$(function(){
-
+$(function(){ 
   function buildHTML(message){
-    var content = message.content ? `<p class="lower-message__content">${message.content}</p>` : "";
-    var image = message.image ? `<img class="lower-message__image" src="${message.image}">` : "";
-
-    var html = `<div class="message" data-id=${message.id}>
-                  <div class="upper-message">
-                    <div class="upper-message__user-name">
-                      ${message.user_name}
-                    </div>
-                    <div class="upper-message__date">
-                      ${message.date}
-                    </div>
-                  </div>
-                    <div class="lower-message">
-                      ${content}
-                      ${image}
-                    </div>
-                </div>`
-    return html;
-  }
+    if ( message.image ) {
+      var html =
+        `<div class="chatMessage__messageBox" data-message-id=${message.id}>
+          <div class="chatMessage__messageBox__info">
+            <div class="chatMessage__messageBox__info__user">
+              ${message.user_name}
+            </div>
+            <div class="chatMessage__messageBox__info__datetime">
+              ${message.created_at}
+            </div>
+          </div>
+          <p class="chatMessage__messageBox__text">
+            ${message.content}
+          </p>
+          <img src=${message.image} >
+        </div>`
+      return html;
+    } else {
+      var html =
+        `<div class="chatMessage__messageBox" data-message-id=${message.id}>
+          <div class="chatMessage__messageBox__info">
+            <div class="chatMessage__messageBox__info__user">
+              ${message.user_name}
+            </div>
+            <div class="chatMessage__messageBox__info__datetime">
+              ${message.created_at}
+            </div>
+          </div>
+          <p class="chatMessage__messageBox__text">
+            ${message.content}
+          </p>
+        </div>`
+      return html;
+    }
+  };
+  
   $('#new_message').on('submit', function(e){
     e.preventDefault();
     var formData = new FormData(this);
-    var url = $(this).attr("action");
+    var url = $(this).attr('action')
     $.ajax({
-        url: url,
-        type: "POST",
-        data: formData,
-        dataType: 'json',
-        processData: false,
-        contentType: false
+      url: url,
+      type: "POST",
+      data: formData,
+      dataType: 'json',
+      processData: false,
+      contentType: false
     })
     .done(function(data){
-       var html = buildHTML(data);
-       $('.ChatMain__messages').append(html);  
-       $('form')[0].reset();    
-       $('.ChatMain__messages').animate({ scrollTop: $('.ChatMain__messages')[0].scrollHeight});
-       $('.form__submit').prop('disabled', false);
+      var html = buildHTML(data);
+      $('.chatMessage').append(html);
+      $('.chatMessage').animate({ scrollTop: $('.chatMessage')[0].scrollHeight});
+      $('form')[0].reset();
     })
     .fail(function() {
       alert("メッセージ送信に失敗しました");
-    });
-  });
-  var reloadMessages = function(){
-    var last_message_id = $('.message:last').data("id");
-
+    })
+    .always(function(){
+      $('.btn').prop('disabled', false);
+    })
+  })
+  var reloadMessages = function() {
+    last_message_id = $('.chatMessage__messageBox:last').data("message-id");
     $.ajax({
-      url: "api/messages",
+      url: 'api/messages',
       type: 'get',
       dataType: 'json',
       data: {id: last_message_id}
     })
-    .done(function(messages) {
+    .done(function(messages){
       if (messages.length !== 0) {
         var insertHTML = '';
         $.each(messages, function(i, message) {
           insertHTML += buildHTML(message)
         });
-        $('.ChatMain__messages').append(insertHTML);
-        $('.ChatMain__messages').animate({
-          scrollTop: $('.ChatMain__messages')[0].scrollHeight
-        });
+        $('.chatMessage').append(insertHTML);
+        $('.chatMessage').animate({ scrollTop: $('.chatMessage')[0].scrollHeight});
       }
     })
     .fail(function() {
-      alert('reloadMessageError');
+      alert('更新に失敗しました');
     });
   };
   if (document.location.href.match(/\/groups\/\d+\/messages/)) {

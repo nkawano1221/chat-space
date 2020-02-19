@@ -1,7 +1,4 @@
 class UsersController < ApplicationController
-  def edit
-    @user =User.find(params[:id])
-  end
 
   def index
     return nil if params[:keyword] == ""
@@ -10,6 +7,9 @@ class UsersController < ApplicationController
       format.html
       format.json
     end
+  end
+
+  def edit
   end
 
   def update
