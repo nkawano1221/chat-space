@@ -1,24 +1,22 @@
-.chatMain
-  .chatHeader
-    .chatHeader__group
-      .chatHeader__group__name
+.main-chat
+  .main-header
+    .main-header__group-info
+      .main-header__group-info__group-name
         = @group.name
-      %ul.chatHeader__group__members
-        Member：
-        %li.chatHeader__group__members__list
-          - @group.group_users.each do |group_user|
-            = group_user.user.name
-    .chatHeader__editBtn
-      = link_to edit_group_path(@group.id) do
-        Edit
-  .chatMessage
+      .main-header__group-info__member-list
+        Member : 
+        - @group.users.each do |user| 
+          = user.name
+    .main-header__edit-box
+      = button_to "Edit", edit_group_path(@group), class: "main-header__edit-box__edit-btn", method: :get
+  .message-list
     = render @messages
-  .chatForm
+  .message-form
     = form_for [@group, @message] do |f|
-      .chatForm__inputBox
-        = f.text_field :content, class: 'chatForm__inputBox__text', placeholder: 'type a message'
-        .chatForm__mask
-          = f.label :image, class: 'chatForm__mask__image' do
-            = icon('fas', 'image')
-            = f.file_field :image, class: "chatForm__mask__image__file"
-        = f.submit 'Send', class: "btn"
+      .message-form__new-message
+        .message-form__new-message__message-box
+          = f.text_field :content, class: "message-form__new-message__message-box__text", placeholder: "type a message"
+          = f.label :image, class: "message-form__new-message__message-box__image" do
+            = icon("far", "image")
+            = f.file_field :image, class: "message-form__new-message__message-box__image__file"
+        = f.submit "Send", class: "message-form__new-message__submit-btn"

@@ -1,20 +1,18 @@
-.chatSide
-  .sideHeader
-    .sideHeader__item
-      .sideHeader__item__userName
+.side-bar
+  .side-header
+    .side-header__user-info
+      .side-header__user-info__user-name
         = current_user.name
-      %ul.sideHeader__item__lists
-        %li.sideHeader__item__lists__list
-        = link_to new_group_path do
-          = icon('fa','edit')
-        %li.sideHeader__item__lists__list
-        = link_to edit_user_path(current_user) do
-          = icon('fas', 'cog', class: 'icon')
-  .groups
+      .side-header__user-info__icons
+        = link_to new_group_path, class: "side-header__user-info__icons__edit" do
+          = icon('fas', 'edit')
+        = link_to edit_user_path(current_user.id), class: "side-header__user-info__icons__config" do
+          = icon('fas', 'cog')
+  .side-contents
     - current_user.groups.each do |group|
-      .group
+      .side-contents__chat-info
         = link_to group_messages_path(group) do
-          .group__groupName
+          .side-contents__chat-info__chat-name
             = group.name
-          .group__groupMessage
-            = group.show_last_message
+          .side-contents__chat-info__latest-message
+            = group.show_latest_message
